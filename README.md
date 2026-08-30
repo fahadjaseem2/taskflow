@@ -115,24 +115,3 @@ The Redis-backed rate limiter specifically is skipped in the test environment (s
 `src/middleware/rateLimiter.ts`) since it needs a real Redis to load its Lua scripts —
 that's a good candidate for an integration-test stage once you're building CI/CD.
 
-## What's included vs. what's on you
-
-Included as a starting reference (use it, rewrite it, or delete it — your call):
-- `docker-compose.yml` / `docker-compose.monitoring.yml`, configured entirely from a root
-  `.env` file (`cp .env.example .env` before running `docker compose up`) — every port,
-  credential, and app setting the compose stack uses is a variable there, not hardcoded
-  in the compose file itself
-- `kubernetes/` manifests (including a blue-green example for the backend)
-- `monitoring/` configs for Prometheus, Grafana, Loki, Promtail
-
-Not included, by design — this is the part you're doing yourself:
-- GitHub Actions CI/CD pipeline (build, test, security scanning, deploy)
-- Canary deployment manifests/scripts
-- Terraform / Ansible for infrastructure
-- Any deployment automation scripts
-
-One thing worth knowing before you deploy: the `kubernetes/` and `docker-compose*.yml`
-reference files were written for the *original* single-table version of this app and were
-only lightly patched (adding `JWT_SECRET`) to keep them from being outright broken. They
-haven't been re-verified against the current schema/features — treat them as a rough
-starting point, not a tested deployment.
