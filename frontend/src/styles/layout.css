@@ -1,0 +1,231 @@
+.app-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.rail {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--color-rail-bg);
+  color: var(--color-rail-text);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-rail-border);
+}
+
+.rail-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 16px;
+}
+
+.rail-brand-mark {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--color-accent);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rail-brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.rail-section {
+  padding: 8px 12px;
+}
+
+.rail-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-rail-text-dim);
+}
+
+.rail-add-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-rail-text-dim);
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rail-add-btn:hover {
+  background: var(--color-rail-surface);
+  color: var(--color-rail-text);
+}
+
+.rail-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--color-rail-text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.rail-link:hover {
+  background: var(--color-rail-surface);
+  color: var(--color-rail-text);
+}
+
+.rail-link.is-active {
+  background: var(--color-rail-surface);
+  color: var(--color-rail-text);
+  box-shadow: inset 2px 0 0 var(--color-accent);
+}
+
+.rail-projects {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.rail-project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rail-project-link {
+  justify-content: flex-start;
+}
+
+.rail-project-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rail-project-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-project-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-rail-text-dim);
+}
+
+.rail-empty {
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--color-rail-text-dim);
+}
+
+.rail-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--color-rail-border);
+}
+
+.rail-user-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rail-user-name {
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-user-email {
+  font-size: 11px;
+  color: var(--color-rail-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-logout {
+  background: transparent;
+  border: none;
+  color: var(--color-rail-text-dim);
+  font-size: 15px;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.rail-logout:hover {
+  background: var(--color-rail-surface);
+  color: var(--color-danger);
+}
+
+.canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 40px;
+}
+
+.canvas-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.canvas-title {
+  font-size: 24px;
+}
+
+.canvas-subtitle {
+  color: var(--color-text-dim);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  .rail {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .rail-projects {
+    display: none;
+  }
+  .canvas {
+    padding: 20px;
+  }
+}
