@@ -1,0 +1,12 @@
+name: taskflow ci pipeline
+
+on:
+  push:
+    branches:
+      - feat/github-actions
+
+jobs:
+  code-quality:
+    uses: ./.github/workflows/code-quality.yml
+
+  

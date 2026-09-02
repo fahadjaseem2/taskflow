@@ -1,0 +1,50 @@
+name: code quality checks
+
+on:
+  workflow_call:
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        directory:
+          - frontend
+          - backend
+
+    defaults:
+      run: 
+        working-directory: ${{ matrix.directory }}
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false                    # Disable automatic npm caching if not required
+      
+      - name: Clean Install
+        run: npm ci
+
+      # Tests        → Verify application behavior
+      - name: Run test
+        run: npm run test
+
+      # Lint         → Check code quality and coding standards
+      - name: Run Lint
+        run: npm run lint
+
+      # Type check   → Verify TypeScript type correctness
+      - name: TypeScript Type check                       # npx tsc TypeScript checks your code and generates JavaScript files. 
+        run: npx tsc --noEmit                             # --noEmit it only checks for TypeScript errors and doesn't generate any files.
+        
+
+      # Build        → Verify the production application can be successfully built
+      - name: Build Application
+        run: npm run build
+
+
