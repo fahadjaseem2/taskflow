@@ -13,26 +13,27 @@ jobs:
 
       ###### Generate JSON report #######
 
-      # - name: Run Trivy vulnerability scanner in fs mode
-      #   uses: aquasecurity/trivy-action@v0.36.0
-      #   with:
-      #     scan-type: 'fs'
-      #     scan-ref: '.'
-      #     trivy-config: trivy.yml
-      #     format: json
-      #     output: trivy-results.json
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yml
+          format: json
+          output: trivy-results.json
       
-      # - name: Upload Trivy Scan Result
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with: 
-      #     name: trivy json results
-      #     path: trivy-results.json
-      #     retention-days: 7
+      - name: Upload Trivy Scan Result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: 
+          name: trivy json results
+          path: trivy-results.json
+          retention-days: 7
 
       ###### Generate SARIF report #######
       
       - name: Run Trivy vulnerability scanner in fs mode
+        if: always()
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: 'fs'
@@ -43,8 +44,6 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: github/codeql-action/upload-sarif@v4
         with:
-          name: trivy sarif report
-          path: trivy-results.sarif
-          retention-days: 6
+          sarif_file: 'trivy-results.sarif'
