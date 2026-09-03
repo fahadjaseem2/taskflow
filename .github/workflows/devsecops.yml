@@ -10,6 +10,9 @@ jobs:
     uses: ./.github/workflows/code-quality.yml
 
   dependency-security:
+    permissions:
+      contents: read
+      security-events: write
     uses: ./.github/workflows/dependency-security.yml
 
   
