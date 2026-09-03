@@ -4,11 +4,7 @@ severity:
 
 ignore-unfixed: true
 
-# format: json
-
 exit-code: 1
 
 scanners:
   - vuln
-
-# output: trivy-results.json
