@@ -1,0 +1,14 @@
+name: Docker Scan for Dependency and linting
+
+on:
+  workflow-call:
+
+jobs:
+  docker-lint-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      

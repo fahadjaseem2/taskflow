@@ -1,9 +1,10 @@
 name: code scan by dagger
 
 on:
-  push:
-    branches:
-      - feat/github-actions
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - feat/github-actions
 
 jobs:
   dagger-sacn:

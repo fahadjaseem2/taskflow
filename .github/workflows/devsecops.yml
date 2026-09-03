@@ -9,4 +9,7 @@ jobs:
   code-quality:
     uses: ./.github/workflows/code-quality.yml
 
+  dependency-security:
+    uses: ./.github/workflows/dependency-security.yml
+
   
