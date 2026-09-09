@@ -49,5 +49,3 @@ jobs:
           name: trivy-${{ matrix.directory }}-results
           path: ${{ matrix.directory }}-trivy-results.txt
           retention-days: 7
-
-      
