@@ -16,6 +16,7 @@ COPY package*.json ./
 # Install the exact dependencies from package-lock.json.
 RUN npm ci
 
+
 # Copy the rest of the frontend source code and configuration files.
 # This includes src/, index.html, vite.config.ts, tsconfig files, etc.
 COPY . .
