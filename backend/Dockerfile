@@ -17,11 +17,10 @@ RUN npm ci
 COPY . .
 
 # Compile TypeScript → creates the dist/ directory
-RUN npm run build
-
 # Remove devDependencies because they are not required at runtime
 # Keep only production dependencies inside node_modules
-RUN npm prune --omit=dev
+RUN npm run build && \
+    npm prune --omit=dev
 
 
 # =========================
