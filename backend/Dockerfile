@@ -37,10 +37,9 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 # Update Alpine packages to their latest available security-fixed versions.
-RUN apk upgrade --no-cache
-
 # Create a dedicated non-root user for running the backend
-RUN addgroup -S taskflow && \
+RUN apk upgrade --no-cache && \
+    addgroup -S taskflow && \
     adduser -S taskflow -G taskflow
 
 
@@ -73,5 +72,5 @@ USER taskflow
 # Backend listens on port 4000
 EXPOSE 4000
 
-# Start the compiled backend
+# Start the backend
 CMD ["node", "dist/index.js"]
