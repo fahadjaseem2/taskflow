@@ -1,14 +1,53 @@
 name: Docker Scan for Dependency and linting
 
 on:
-  workflow-call:
+  workflow_call:
 
 jobs:
   docker-lint-scan:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        directory:
+          - frontend
+          - backend
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ${{ matrix.directory }}/Dockerfile
+
+###### TRIVY SCAN ######
+
+      - name: docker build image
+        run: docker build -t ${{ matrix.directory }}-taskflow:${{ github.sha }} .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ matrix.directory }}-taskflow:${{ github.sha }}
+          format: 'table'
+          output: '${{ matrix.directory }}-trivy-results.txt'
+          exit-code: '1'
+          ignore-unfixed: true
+          #vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy Image Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-${{ matrix.directory }}-results
+          path: ${{ matrix.directory }}-trivy-results.txt
+          retention-days: 7
 
       
