@@ -41,11 +41,11 @@ COPY package*.json ./
 
 # Install only production dependencies (no devDependencies)
 # Then remove npm's cache to reduce image size
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev && \
+    npm cache clean --force
 
 # Copy only the compiled application from Stage 1
 COPY --from=builder /app/dist ./dist
-COPY migrations ./migrations
 
 # Migrations are handled separately by CI/CD,
 # so they don't need to be in the runtime image

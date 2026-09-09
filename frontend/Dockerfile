@@ -55,13 +55,13 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 #
 # -R
 # → recursively applies ownership to everything inside.
+#
+# Create the PID file while we still have root privileges.
+# 'touch' creates the file if it doesn't exist.
+#
+# Give the nginx user ownership of the PID file.
 RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx && \
-    
-    # Create the PID file while we still have root privileges.
-    # 'touch' creates the file if it doesn't exist.
     touch /var/run/nginx.pid && \
-    
-    # Give the nginx user ownership of the PID file.
     chown nginx:nginx /var/run/nginx.pid
 
 
