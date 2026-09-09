@@ -19,7 +19,6 @@ COPY . .
 # Compile TypeScript → creates the dist/ directory
 RUN npm run build
 
-
 # =========================
 # Stage 2: Production
 # =========================
