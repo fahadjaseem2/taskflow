@@ -31,6 +31,9 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
+# Update Alpine packages to their latest available security-fixed versions.
+RUN apk upgrade --no-cache
+
 # Create a dedicated non-root user for running the backend
 RUN addgroup -S taskflow && \
     adduser -S taskflow -G taskflow
