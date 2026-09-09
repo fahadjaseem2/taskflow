@@ -34,6 +34,9 @@ RUN npm run build
 # Nginx will serve the static files from the dist/ directory.
 FROM nginx:alpine
 
+# Update Alpine packages to their latest available security-fixed versions.
+RUN apk upgrade --no-cache
+
 # Copy the production build created in Stage 1
 # into the directory Nginx uses to serve websites.
 COPY --from=builder /app/dist /usr/share/nginx/html
