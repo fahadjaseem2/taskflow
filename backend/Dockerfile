@@ -3,7 +3,7 @@
 # =========================
 
 # Node is needed to build the TypeScript application
-FROM node:22-slim AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -18,6 +18,11 @@ COPY . .
 
 # Compile TypeScript → creates the dist/ directory
 RUN npm run build
+
+# Remove devDependencies because they are not required at runtime
+# Keep only production dependencies inside node_modules
+RUN npm prune --omit=dev
+
 
 # =========================
 # Stage 2: Production
@@ -38,14 +43,12 @@ RUN apk upgrade --no-cache
 RUN addgroup -S taskflow && \
     adduser -S taskflow -G taskflow
 
-# Copy package files because this is a NEW stage
-# and it needs them to install runtime dependencies
-COPY package*.json ./
 
-# Install only production dependencies (no devDependencies)
-# Then remove npm's cache to reduce image size
-RUN npm ci --omit=dev && \
-    npm cache clean --force
+# Copy only the production dependencies from the builder
+#
+# npm is NOT needed here because dependencies were already installed
+# and pruned in the builder stage.
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy only the compiled application from Stage 1
 COPY --from=builder /app/dist ./dist
@@ -53,6 +56,16 @@ COPY --from=builder /app/dist ./dist
 # Migrations are handled separately by CI/CD,
 # so they don't need to be in the runtime image
 # COPY migrations ./migrations
+
+
+# npm is not required to run the application.
+#
+# The node:22-alpine image contains npm by default.
+# Remove npm and npx from the production image so their
+# bundled dependencies are not included in the Trivy scan.
+RUN rm -rf /usr/local/lib/node_modules/npm && \
+    rm -f /usr/local/bin/npm /usr/local/bin/npx
+
 
 # Run the backend as the non-root taskflow user
 USER taskflow
