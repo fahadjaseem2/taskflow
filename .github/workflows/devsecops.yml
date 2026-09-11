@@ -16,6 +16,9 @@ jobs:
   dependency-security:
     uses: ./.github/workflows/dependency-security.yml
 
+  secrets-scaning:
+    uses: ./.github/workflows/secrets-scan.yml
+
   docker-scan:
     uses: ./.github/workflows/docker-scan.yml
 
