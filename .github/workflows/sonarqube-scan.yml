@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: SonarQube scan
-        uses: SonarSource/sonarqube-scan-action@8.2.1
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
         with: 
           projectBaseDir: frontend
         env:
@@ -52,7 +52,7 @@ jobs:
         run: npm run build
       
       - name: SonarQube Scan 
-        uses: SonarSource/sonarqube-scan-action@8.2.1
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
         with:
           projectBaseDir: backend
         env: 
