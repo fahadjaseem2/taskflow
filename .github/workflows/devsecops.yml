@@ -18,3 +18,6 @@ jobs:
 
   docker-scan:
     uses: ./.github/workflows/docker-scan.yml
+
+  Sonarqube-scan:
+    uses: ./.github/workflows/sonarqube-scan.yml
