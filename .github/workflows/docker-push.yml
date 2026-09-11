@@ -35,5 +35,6 @@ jobs:
         with:
           context: ${{ matrix.directory }}
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/taskflow-${{ matrix.directory }}:latest
-            
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/taskflow-${{ matrix.directory }}:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/taskflow-${{ matrix.directory }}:${{ github.sha }}
