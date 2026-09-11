@@ -27,6 +27,12 @@ jobs:
   #   secrets: inherit
 
   docker-push:
+    needs:
+      - code-quality
+      - dependency-security
+      - secrets-scaning
+      - docker-scan
+      #- Sonarqube-scan
     uses: ./.github/workflows/docker-push.yml
     secrets: inherit
     
