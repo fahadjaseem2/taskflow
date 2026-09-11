@@ -3,100 +3,101 @@ name: Sonar scan
 on:
   workflow_call:
 
-sonarqube:
-  runs-on: ubuntu-latest
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Code Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    - name: Install frontend dependencies
-      working-directory: frontend
-      run: npm ci
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
 
-    - name: Build frontend
-      working-directory: frontend
-      run: npm run build
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
 
-    - name: Install backend dependencies
-      working-directory: backend
-      run: npm ci
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
 
-    - name: Build backend
-      working-directory: backend
-      run: npm run build
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
 
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v8.2.1
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
-
-# name: Sonar scan
-
-# on:
-#   workflow_call:
-
-# jobs:
-#   sonarqube-frontend:
-#     runs-on: ubuntu-latest
-
-#     defaults:
-#       run:
-#         working-directory: frontend
-
-#     steps:
-#       - name: Code Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           fetch-depth: 0
-
-#       - name: clean Install
-#         run: npm ci
-      
-#       - name: Build application
-#         run: npm run build
-
-#       - name: SonarQube scan
-#         uses: SonarSource/sonarqube-scan-action@v8.2.1
-#         with: 
-#           projectBaseDir: frontend
-#         env:
-#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
-#           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
 
-#   sonarqube-backend:
-#     runs-on: ubuntu-latest
+  # name: Sonar scan
 
-#     defaults:
-#       run:
-#         working-directory: backend
+  # on:
+  #   workflow_call:
 
-#     steps:
-#       - name: Code Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           fetch-depth: 0
+  # jobs:
+  #   sonarqube-frontend:
+  #     runs-on: ubuntu-latest
 
-#       - name: Clean install 
-#         run: npm ci
+  #     defaults:
+  #       run:
+  #         working-directory: frontend
 
-#       - name: Build application
-#         run: npm run build
-      
-#       - name: SonarQube Scan 
-#         uses: SonarSource/sonarqube-scan-action@v8.2.1
-#         with:
-#           projectBaseDir: backend
-#         env: 
-#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
-#           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+  #     steps:
+  #       - name: Code Checkout
+  #         uses: actions/checkout@v4
+  #         with:
+  #           fetch-depth: 0
+
+  #       - name: clean Install
+  #         run: npm ci
+        
+  #       - name: Build application
+  #         run: npm run build
+
+  #       - name: SonarQube scan
+  #         uses: SonarSource/sonarqube-scan-action@v8.2.1
+  #         with: 
+  #           projectBaseDir: frontend
+  #         env:
+  #           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
+  #           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+
+  #   sonarqube-backend:
+  #     runs-on: ubuntu-latest
+
+  #     defaults:
+  #       run:
+  #         working-directory: backend
+
+  #     steps:
+  #       - name: Code Checkout
+  #         uses: actions/checkout@v4
+  #         with:
+  #           fetch-depth: 0
+
+  #       - name: Clean install 
+  #         run: npm ci
+
+  #       - name: Build application
+  #         run: npm run build
+        
+  #       - name: SonarQube Scan 
+  #         uses: SonarSource/sonarqube-scan-action@v8.2.1
+  #         with:
+  #           projectBaseDir: backend
+  #         env: 
+  #           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_NEW }}
+  #           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
