@@ -1,0 +1,40 @@
+name: Docker Push
+
+on:
+  workflow_call:
+  
+jobs:
+  docker-push-frontend:
+    runs-on: ubuntu-latest
+
+    startegy:
+      matrix:
+        directory:
+          - frontend
+          - backend
+
+    defaults:
+      run:
+        working-directory:
+
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - name: Docker SetUp
+        uses: docker/setup-docker-action@v5
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.directory }}
+          push: true
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/taskflow-${{ matrix.directory }}:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/taskflow-${{ matrix.directory }}:${{ github.sha::7 }}
