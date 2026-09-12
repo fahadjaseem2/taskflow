@@ -1,0 +1,23 @@
+name: OWASP-zap-scan
+
+on:
+  workflow_call:
+
+jobs:
+  zap-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: code checkout 
+        uses: actions/checkout@v4
+        # with:
+        #   ref: main
+      
+      - name: Zap scan
+        uses: zaproxy/action-full-scan@v0.13.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: http://localhost:3000
+          fail_action: false            # Don't fail the GitHub Actions job just because ZAP finds vulnerabilities.
+          allow_issue_writing: false    # Don't allow ZAP to create GitHub Issues for the vulnerabilities it finds.
+      

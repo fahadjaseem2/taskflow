@@ -1,0 +1,32 @@
+name: deploy
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - name: Check docker Version
+        run: docker --Version
+
+      - name: check docker-compose Version
+        run: docker-compose --Version
+
+      - name: Stop existing conatiner
+        run: docker-compose down
+
+      - name: docker compose build
+        run: docker-compose build
+
+      - name: docker compose deploy
+        run: docker-compose up -d
+
+      - name: check running conatiner
+        run: |
+          docker ps
+          docker-compose ps
