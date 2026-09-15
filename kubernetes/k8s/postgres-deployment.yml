@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: taskflow-postgres-deployment
+  namespace: taskflow
+  labels:
+    app: postgres
+
+spec:
+  replicas: 1
+
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels:
+      app: postgres
+
+  template:
+    metadata:
+      labels:
+        app: postgres
+
+    spec:
+      containers:
+        - name: taskflow
+          image: postgres:17
+
+          ports:
+            - containerPort: 5432
+
+          envFrom:
+            - configMapRef:
+                name: taskflow-configmap
+            - secretRef:
+                name: taskflow-secrets
+
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+          livenessProbe:
+            exec:
+              command:
+                # - pg_isready
+                # - -U
+                # - taskflow
+                - bash
+                - -c
+                - "psql -w -U $POSTGRES_USER -d $POSTGRES_DB -c 'SELECT 1'" # -w = dont ask password
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - "psql -w -U $POSTGRES_USER -d $POSTGRES_DB -c 'SELECT 1'"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: pvc-taskflow
