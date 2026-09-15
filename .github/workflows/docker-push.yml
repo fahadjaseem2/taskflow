@@ -4,7 +4,7 @@ on:
   workflow_call:
   
 jobs:
-  docker-push-frontend:
+  docker-build-push:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
 
       - name: Docker SetUp
         uses: docker/setup-docker-action@v5
