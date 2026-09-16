@@ -51,6 +51,8 @@ COPY --from=builder /app/node_modules ./node_modules
 # Copy only the compiled application from Stage 1
 COPY --from=builder /app/dist ./dist
 
+COPY --from=builder /app/migrations ./migrations
+
 # Migrations are handled separately by CI/CD,
 # so they don't need to be in the runtime image
 # COPY migrations ./migrations

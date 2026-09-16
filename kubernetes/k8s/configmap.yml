@@ -7,15 +7,15 @@ metadata:
   namespace: taskflow
 
 data:
-  POSTGRES_USER: taskflow         # Database user
-  POSTGRES_DB: taskflow           # Database name
-  POSTGRES_HOST: postgres-service # PostgreSQL k8s Service
-  POSTGRES_PORT: "5432"           # PostgreSQL port
+  POSTGRES_USER: taskflow                   # Database user
+  POSTGRES_DB: taskflow                     # Database name
+  POSTGRES_HOST: postgres-service-taskflow  # PostgreSQL k8s Service
+  POSTGRES_PORT: "5432"                     # PostgreSQL port
 
-  REDIS_HOST: redis-service # due to k8s service and in docker it should be service name
+  REDIS_HOST: redis-service-taskflow                 # due to k8s service and in docker it should be service name
   REDIS_PORT: "6379"
 
-  DB_HOST: postgres-service
+  DB_HOST: postgres-service-taskflow
   DB_PORT: "5432"
   DB_USER: taskflow
   DB_NAME: taskflow

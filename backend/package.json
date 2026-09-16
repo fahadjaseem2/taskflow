@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "test": "jest --coverage --detectOpenHandles",
     "lint": "eslint 'src/**/*.ts'",
-    "migrate": "node -e \"require('./dist/db').runMigrations()\""
+    "migrate": "node dist/migrate.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

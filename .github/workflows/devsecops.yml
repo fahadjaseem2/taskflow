@@ -36,6 +36,12 @@ jobs:
     uses: ./.github/workflows/docker-push.yml
     secrets: inherit
 
+  migration:
+    needs: 
+      - docker-push
+    uses: ./github/workflows/migration.yml
+    secrets: inherit
+
 ############################################################
 #                         DEPLOY                           #
 ############################################################    
@@ -43,10 +49,13 @@ jobs:
   deploy:
     needs:
       - docker-push
+      - migration
     uses: ./.github/workflows/deploy.yml
 
   OWASP-ZAP-Scan:
     needs:
       - deploy
     uses: ./.github/workflows/owasp-zap-test.yml
+
+
     

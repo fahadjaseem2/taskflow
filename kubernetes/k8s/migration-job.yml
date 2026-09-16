@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: taskflow-migration
+  namespace: taskflow
+
+spec:
+  backoffLimit: 3
+
+  template:
+    metadata:
+      labels:
+        app: taskflow-migration
+
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: migration
+          image: fahadjaseem/taskflow-backend:latest
+
+          command:
+            - node
+            - dist/migrate.js
+
+          envFrom:
+            - configMapRef:
+                name: taskflow-configmap
+
+            - secretRef:
+                name: taskflow-secrets

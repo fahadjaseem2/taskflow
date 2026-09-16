@@ -1,0 +1,42 @@
+name: k8s migration
+
+on:
+  workflow_call:
+
+jobs:
+  migrations:
+    runs-on: [self-hosted, linux, x64]
+
+    steps:
+
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Kubernetes
+        run: |
+          kubectl version --client
+          kubectl get nodes
+
+      - name: Deploy Migration Job
+        run: |
+          kubectl delete job taskflow-migration \
+            -n taskflow \
+            --ignore-not-found
+
+          kubectl apply \
+            -f k8s/migration-job.yml
+
+      - name: Wait for Migration
+        run: |
+          kubectl wait \
+            --for=condition=complete \
+            job/taskflow-migration \
+            -n taskflow \
+            --timeout=120s
+
+      - name: Migration Logs
+        if: always()
+        run: |
+          kubectl logs \
+            job/taskflow-migration \
+            -n taskflow
