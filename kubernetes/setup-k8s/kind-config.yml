@@ -5,6 +5,10 @@ name: taskflow-cluster
 nodes:
   - role: control-plane
     image: kindest/node:v1.34.0
+    extraPortMappings:
+      - containerPort: 30080 
+      - hostPort: 3001
+      - protocol: TCP
 
   - role: worker
     image: kindest/node:v1.34.0
