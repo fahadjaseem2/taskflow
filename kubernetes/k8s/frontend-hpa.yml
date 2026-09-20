@@ -20,13 +20,13 @@ spec:
         type: Utilization
         averageUtilization: 50
 
-  - type: Pods 
-    pods:
-      metric:
-        name: packets-per-second
-      target:
-        type: AverageValue
-        averageValue: 1000
+  # - type: Pods 
+  #   pods:
+  #     metric:
+  #       name: packets-per-second
+  #     target:
+  #       type: AverageValue
+  #       averageValue: 1000
 
   behavior:
     scaleUp:
